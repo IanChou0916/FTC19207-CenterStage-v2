@@ -40,5 +40,14 @@ public class slider {
         SliderL.setPower(power);
         SliderR.setPower(power);
     }
+    public void setSliderPosition(double position){
+        SliderL.setTargetPosition((int)position);
+        SliderR.setTargetPosition((int)position);
+    }
+    public void setSliderMode(DcMotor.RunMode mode){
+        SliderL.setMode(mode);
+        SliderR.setMode(mode);
+    }
+
 
 }
