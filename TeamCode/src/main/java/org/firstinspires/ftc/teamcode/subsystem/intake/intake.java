@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.intake;
+package org.firstinspires.ftc.teamcode.subsystem.intake;
 
 import static org.firstinspires.ftc.teamcode.Constants.MOTOR_LEFT_SLIDER;
 import static org.firstinspires.ftc.teamcode.Constants.MOTOR_RIGHT_SLIDER;
