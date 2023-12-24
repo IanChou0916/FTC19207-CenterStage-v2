@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.CusDrive;
+package org.firstinspires.ftc.teamcode.subsystem.drive;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -23,7 +23,6 @@ public class BaseImu {
     BaseChassis chassis;
 
     public BaseImu(HardwareMap hardwareMap) {
-
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(
                 new RevHubOrientationOnRobot(
