@@ -24,10 +24,10 @@ public class BaseChassis {
         imu = new BaseImu(hardwareMap);
         
         Constants constants = new Constants();
-        LF = hardwareMap.get(DcMotorEx.class, constants.LF);
-        RF = hardwareMap.get(DcMotorEx.class, constants.RF);
-        LB = hardwareMap.get(DcMotorEx.class, constants.LB);
-        RB = hardwareMap.get(DcMotorEx.class, constants.RB);
+        LF = hardwareMap.get(DcMotorEx.class, constants.MOTOR_CHASSIS_FL);
+        RF = hardwareMap.get(DcMotorEx.class, constants.MOTOR_CHASSIS_FR);
+        LB = hardwareMap.get(DcMotorEx.class, constants.MOTOR_CHASSIS_RL);
+        RB = hardwareMap.get(DcMotorEx.class, constants.MOTOR_CHASSIS_RR);
         motors = Arrays.asList(LF, RF, LB, RB);
 
         for (DcMotorEx motor: motors) {
