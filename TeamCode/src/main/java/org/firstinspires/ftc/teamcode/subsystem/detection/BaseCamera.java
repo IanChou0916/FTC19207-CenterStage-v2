@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.detection;
+package org.firstinspires.ftc.teamcode.subsystem.detection;
 
+import static org.firstinspires.ftc.teamcode.Constants.desiredTagId;
 import static java.lang.Thread.sleep;
 
 import android.util.Size;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @Config
 public class BaseCamera {
+    AprilTagDetection desiredTag = null;
     boolean targetFound = false;
     List<AprilTagDetection> detections;
     int aprilTagId = -1;
