@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.CusDrive;
+package org.firstinspires.ftc.teamcode.subsystem.drive;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.RobotContant;
+import org.firstinspires.ftc.teamcode.Constants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,26 +20,26 @@ public class BaseChassis {
     List<DcMotorEx> motors;
     BaseImu imu;
 
-    public BaseChassis (HardwareMap hardwareMap, boolean chassis) {
+    public BaseChassis (HardwareMap hardwareMap) {
         imu = new BaseImu(hardwareMap);
-        if (chassis) {
-            RobotContant constants = new RobotContant();
-            LF = hardwareMap.get(DcMotorEx.class, constants.LF);
-            RF = hardwareMap.get(DcMotorEx.class, constants.RF);
-            LB = hardwareMap.get(DcMotorEx.class, constants.LB);
-            RB = hardwareMap.get(DcMotorEx.class, constants.RB);
-            motors = Arrays.asList(LF, RF, LB, RB);
+        
+        Constants constants = new Constants();
+        LF = hardwareMap.get(DcMotorEx.class, constants.LF);
+        RF = hardwareMap.get(DcMotorEx.class, constants.RF);
+        LB = hardwareMap.get(DcMotorEx.class, constants.LB);
+        RB = hardwareMap.get(DcMotorEx.class, constants.RB);
+        motors = Arrays.asList(LF, RF, LB, RB);
 
-            for (DcMotorEx motor: motors) {
-                motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            }
-
-            LF.setDirection(DcMotorSimple.Direction.REVERSE);
-            LB.setDirection(DcMotorSimple.Direction.REVERSE);
-            RF.setDirection(DcMotorSimple.Direction.FORWARD);
-            RB.setDirection(DcMotorSimple.Direction.FORWARD);
+        for (DcMotorEx motor: motors) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
+
+        LF.setDirection(DcMotorSimple.Direction.REVERSE);
+        LB.setDirection(DcMotorSimple.Direction.REVERSE);
+        RF.setDirection(DcMotorSimple.Direction.FORWARD);
+        RB.setDirection(DcMotorSimple.Direction.FORWARD);
+        
     }
 
     public void Drive(Gamepad gamepad) {
