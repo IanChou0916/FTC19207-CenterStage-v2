@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.CusVisual;
+package org.firstinspires.ftc.teamcode.detection;
 
 import static java.lang.Thread.sleep;
 
@@ -14,8 +14,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.CusDrive.BaseChassis;
-import org.firstinspires.ftc.teamcode.RobotContant;
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -25,44 +24,18 @@ import java.util.List;
 
 @Config
 public class BaseCamera {
-    static RobotContant robotContant = new RobotContant();
-    DcMotorEx LF = null;
-    DcMotorEx RF = null;
-    DcMotorEx LB = null;
-    DcMotorEx RB = null;
-    double DESIRED_DISTANCE = robotContant.Robot_DESIRED_DISTANCE;
-    AprilTagDetection desiredTag = null;
-    public static int desiredTagId = robotContant.RobotDesiredTagId;
-    FtcDashboard dashboard;
     boolean targetFound = false;
-    final double X_GAIN  =  robotContant.X_GAIN;
-    final double Y_GAIN =  robotContant.Y_GAIN;
-    final double TURN_GAIN   = robotContant.TURN_GAIN;
-    final double MAX_AUTO_SPEED = robotContant.MAX_AUTO_X;
-    final double MAX_AUTO_STRAFE= robotContant.MAX_AUTO_Y;
-    final double MAX_AUTO_TURN  = robotContant.MAX_AUTO_TURN;
-
     List<AprilTagDetection> detections;
-    int myAprilTagIdCode = 0;
-    TfodProcessor tfodProcessor;
-    AprilTagProcessor aprilTagProcessor;
+    int aprilTagId = -1;
+    public TfodProcessor tfodProcessor;
+    public AprilTagProcessor aprilTagProcessor;
     public VisionPortal visionPortal;
     double pixelX = 0;
     double pixelY = 0;
     double pixelW = 0;
     double pixelH = 0;
 
-    public BaseCamera(HardwareMap hardwareMap, boolean drive) {
-        dashboard = FtcDashboard.getInstance();
-
-        if (drive) {
-            BaseChassis baseChassis = new BaseChassis(hardwareMap, true);
-            this.LF = baseChassis.LF;
-            this.LB = baseChassis.LB;
-            this.RF = baseChassis.RF;
-            this.RB = baseChassis.RB;
-        }
-
+    public BaseCamera(HardwareMap hardwareMap) {
         aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setDrawTagID(true)
                 .setDrawTagOutline(true)
@@ -96,7 +69,7 @@ public class BaseCamera {
         detections = aprilTagProcessor.getDetections();
         for (AprilTagDetection detection : detections) {
             if (detection.metadata != null) {
-                myAprilTagIdCode = detection.id;
+                aprilTagId = detection.id;
                 if (desiredTagId == detection.id) {
                     targetFound = true;
                     desiredTag = detection;
@@ -109,7 +82,7 @@ public class BaseCamera {
         }
 
         if (targetFound == false) {
-            myAprilTagIdCode = -1;
+            aprilTagId = -1;
         }
 
         if (gamepad.b) {
@@ -120,7 +93,7 @@ public class BaseCamera {
 
         telemetryTfod(telemetry);
 
-        telemetry.addData("aprilTagId is ", "%d", myAprilTagIdCode);
+        telemetry.addData("aprilTagId is ", "%d", aprilTagId);
         telemetry.addData("Founded", targetFound);
     }
 
@@ -141,55 +114,5 @@ public class BaseCamera {
             telemetry.addData("- Position", "%.0f / %.0f", pixelX, pixelY);
             telemetry.addData("- Size", "%.0f x %.0f", pixelW, pixelH);
         }   // end for() loop
-    }
-
-    public void DriveCamera(Gamepad gamepad) throws InterruptedException {
-        double xPow = 0;
-        double yPow = 0;
-        double turnPow = 0;
-
-        if (targetFound && gamepad.a) {
-            double YError = (desiredTag.ftcPose.y - DESIRED_DISTANCE);
-            double XError = desiredTag.ftcPose.x;
-            double yawError = desiredTag.ftcPose.yaw;
-
-            xPow = Range.clip(YError * X_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-            turnPow = Range.clip(XError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
-            yPow = Range.clip(-yawError * Y_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-
-
-            sleep(10);
-        } else {
-            xPow = 0;
-            yPow = 0;
-            turnPow = 0;
-        }
-        moveRobot(yPow, xPow, turnPow);
-    }
-
-    public void moveRobot(double y, double x, double yaw) {
-        // Calculate wheel powers.
-        double leftFrontPower    =  y -x -yaw;
-        double rightFrontPower   =  y +x +yaw;
-        double leftBackPower     =  y +x -yaw;
-        double rightBackPower    =  y -x +yaw;
-
-        // Normalize wheel powers to be less than 1.0
-        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-        max = Math.max(max, Math.abs(leftBackPower));
-        max = Math.max(max, Math.abs(rightBackPower));
-
-        if (max > 1.0) {
-            leftFrontPower /= max;
-            rightFrontPower /= max;
-            leftBackPower /= max;
-            rightBackPower /= max;
-        }
-
-        // Send powers to the wheels.
-        LF.setPower(leftFrontPower);
-        RF.setPower(rightFrontPower);
-        LB.setPower(leftBackPower);
-        RB.setPower(rightBackPower);
     }
 }
