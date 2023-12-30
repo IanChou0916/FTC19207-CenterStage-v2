@@ -51,7 +51,8 @@ public class BaseCamera {
                 .setUseObjectTracker(true)
                 .setTrackerMaxOverlap((float) 0.2)
                 .setTrackerMinSize(16)
-                .setModelAssetName("CenterStage.tflite")
+                .setModelAssetName("RED_TSE.tflite")
+                .setModelLabels(new String[]{"RED_TSE"})
                 .build();
 
         visionPortal = new VisionPortal.Builder()
