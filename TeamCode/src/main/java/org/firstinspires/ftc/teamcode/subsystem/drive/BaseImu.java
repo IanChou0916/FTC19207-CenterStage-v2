@@ -62,16 +62,25 @@ public class BaseImu {
         double y = -gamepad.left_stick_y;
         double x = gamepad.left_stick_x;
         double r = gamepad.right_stick_x;
-        double theata = Z_axis;
 
+        orientation = imu.getRobotOrientation(
+                AxesReference.INTRINSIC,
+                AxesOrder.XYZ,
+                AngleUnit.RADIANS
+        );
+        
+        double theata = -orientation.thirdAngle;
+        
+        double tmp = x;
         x = Math.cos(theata) * x - Math.sin(theata) * y;
-        y = Math.sin(theata) * x + Math.cos(theata) * y;
+        y = Math.sin(theata) * tmp + Math.cos(theata) * y;
 
         LF.setPower(y+x+r);
         LB.setPower(y-x+r);
         RF.setPower(y-x-r);
         RB.setPower(y+x-r);
 
+        telemetry.addData("theata", Math.toDegrees(theata));
         telemetry.addData("cos", "%.2f", Math.cos(theata));
         telemetry.addData("sin", "%.2f", Math.sin(theata));
     }
