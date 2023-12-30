@@ -39,7 +39,7 @@ public class BaseChassis {
         LB.setDirection(DcMotorSimple.Direction.REVERSE);
         RF.setDirection(DcMotorSimple.Direction.FORWARD);
         RB.setDirection(DcMotorSimple.Direction.FORWARD);
-        
+        imu.imu.resetYaw();
     }
 
     public void Drive(Gamepad gamepad) {
