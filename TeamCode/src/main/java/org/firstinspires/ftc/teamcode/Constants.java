@@ -32,7 +32,7 @@ public class Constants {
     // chassis constants
     public static final boolean ENABLE_FOD = true; // field coordinate system
     public static final double CHASSIS_DEADBAND = 0.06; // for controller
-
-
+    
+    public static int desiredTagId = 0;
 
 }
