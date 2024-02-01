@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.checkerframework.checker.signedness.qual.Constant;
+
+@Constant
 @Config
 public class Constants {
     private static final boolean DEBUG = false;
@@ -13,11 +17,18 @@ public class Constants {
 
     public static final String MOTOR_LEFT_SLIDER = "SL";
     public static final String MOTOR_RIGHT_SLIDER = "SR";
+    public static final String MOTOR_INTAKE = "SI";
     public static final String SERVO_INTAKE = "intake";
     public static final String RGB_SERVO = "RGB";
     public static final DcMotor.ZeroPowerBehavior MOTOR_CHASSIS_BRAKE = DcMotor.ZeroPowerBehavior.BRAKE;
     public static final DcMotor.ZeroPowerBehavior MOTOR_SLIDERS_BRAKE = DcMotor.ZeroPowerBehavior.BRAKE;
 
+    public static final double ClawLClose = 0.7;
+    public static final double ClawRClose = 0.2;
+    public static final double ClawTrunDown = 1;
+    public static final double ClawLOpen = 0.5;
+    public static final double ClawROpen = 0.0;
+    public static final double ClawTrunUp = 0.0;
 
 
     // PID constants for motors

@@ -37,7 +37,7 @@ public class BaseCamera {
     double pixelW = 0;
     double pixelH = 0;
 
-    public BaseCamera(HardwareMap hardwareMap) {
+    public BaseCamera(HardwareMap hardwareMap, String alliance) {
         aprilTagProcessor = new AprilTagProcessor.Builder()
                 .setDrawTagID(true)
                 .setDrawTagOutline(true)
@@ -46,14 +46,25 @@ public class BaseCamera {
                 .build();
         aprilTagProcessor.setDecimation(2);
 
-        tfodProcessor = new TfodProcessor.Builder()
-                .setMaxNumRecognitions(10)
-                .setUseObjectTracker(true)
-                .setTrackerMaxOverlap((float) 0.2)
-                .setTrackerMinSize(16)
-                .setModelAssetName("RED_TSE.tflite")
-                .setModelLabels(new String[]{"RED_TSE"})
-                .build();
+        if (alliance == "red") {
+            tfodProcessor = new TfodProcessor.Builder()
+                    .setMaxNumRecognitions(10)
+                    .setUseObjectTracker(true)
+                    .setTrackerMaxOverlap((float) 0.2)
+                    .setTrackerMinSize(16)
+                    .setModelAssetName("RED_TSE.tflite")
+                    .setModelLabels(new String[]{"RED_TSE"})
+                    .build();
+        } else if (alliance == "blue") {
+            tfodProcessor = new TfodProcessor.Builder()
+                    .setMaxNumRecognitions(10)
+                    .setUseObjectTracker(true)
+                    .setTrackerMaxOverlap((float) 0.2)
+                    .setTrackerMinSize(16)
+                    .setModelAssetName("BLUE_TSE.tflite")
+                    .setModelLabels(new String[]{"RED_TSE"})
+                    .build();
+        }
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))

@@ -14,12 +14,12 @@ import org.firstinspires.ftc.teamcode.subsystem.slider.slider;
 public abstract class robotBase extends LinearOpMode {
     protected SampleMecanumDrive drive;
     protected slider sliders;
-    protected intake intakes;
+    protected intake claws;
 
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         drive = new SampleMecanumDrive(hardwareMap);
-        intakes = new intake(hardwareMap);
+        claws = new intake(hardwareMap);
 
         sliders = new slider(hardwareMap);
         telemetry.setMsTransmissionInterval(50);

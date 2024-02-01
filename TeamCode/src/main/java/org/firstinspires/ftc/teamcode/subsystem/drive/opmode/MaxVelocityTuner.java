@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.subsystem.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.subsystem.drive.DriveConstantstEST;
 import org.firstinspires.ftc.teamcode.subsystem.drive.SampleMecanumDrive;
 
 import java.util.Objects;
@@ -27,7 +27,7 @@ import java.util.Objects;
 @Config
 @Autonomous(group = "drive")
 public class MaxVelocityTuner extends LinearOpMode {
-    public static double RUNTIME = 2.0;
+    public static double RUNTIME = 1.5;
 
     private ElapsedTime timer;
     private double maxVelocity = 0.0;
@@ -68,7 +68,7 @@ public class MaxVelocityTuner extends LinearOpMode {
 
         drive.setDrivePower(new Pose2d());
 
-        double effectiveKf = DriveConstants.getMotorVelocityF(veloInchesToTicks(maxVelocity));
+        double effectiveKf = DriveConstantstEST.getMotorVelocityF(veloInchesToTicks(maxVelocity));
 
         telemetry.addData("Max Velocity", maxVelocity);
         telemetry.addData("Max Recommended Velocity", maxVelocity * 0.8);
@@ -76,9 +76,10 @@ public class MaxVelocityTuner extends LinearOpMode {
         telemetry.update();
 
         while (!isStopRequested() && opModeIsActive()) idle();
+        return effectiveKf;
     }
 
     private double veloInchesToTicks(double inchesPerSec) {
-        return inchesPerSec / (2 * Math.PI * DriveConstants.WHEEL_RADIUS) / DriveConstants.GEAR_RATIO * DriveConstants.TICKS_PER_REV;
+        return inchesPerSec / (2 * Math.PI * DriveConstantstEST.WHEEL_RADIUS) / DriveConstantstEST.GEAR_RATIO * DriveConstantstEST.TICKS_PER_REV;
     }
 }

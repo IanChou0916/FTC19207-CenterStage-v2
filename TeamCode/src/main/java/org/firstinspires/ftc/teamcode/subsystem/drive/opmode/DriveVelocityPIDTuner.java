@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.subsystem.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystem.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.subsystem.drive.DriveConstantstEST;
 
 import java.util.List;
 
@@ -56,12 +56,12 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
     private static MotionProfile generateProfile(boolean movingForward) {
         MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);
         MotionState goal = new MotionState(movingForward ? DISTANCE : 0, 0, 0, 0);
-        return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, DriveConstants.MAX_VEL, DriveConstants.MAX_ACCEL);
+        return MotionProfileGenerator.generateSimpleMotionProfile(start, goal, DriveConstantstEST.MAX_VEL, DriveConstantstEST.MAX_ACCEL);
     }
 
     @Override
     public void runOpMode() {
-        if (!DriveConstants.RUN_USING_ENCODER) {
+        if (!DriveConstantstEST.RUN_USING_ENCODER) {
             RobotLog.setGlobalErrorMsg("%s does not need to be run if the built-in motor velocity" +
                     "PID is not in use", getClass().getSimpleName());
         }
@@ -72,12 +72,12 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         Mode mode = Mode.TUNING_MODE;
 
-        double lastKp = DriveConstants.MOTOR_VELO_PID.p;
-        double lastKi = DriveConstants.MOTOR_VELO_PID.i;
-        double lastKd = DriveConstants.MOTOR_VELO_PID.d;
-        double lastKf = DriveConstants.MOTOR_VELO_PID.f;
+        double lastKp = DriveConstantstEST.MOTOR_VELO_PID.p;
+        double lastKi = DriveConstantstEST.MOTOR_VELO_PID.i;
+        double lastKd = DriveConstantstEST.MOTOR_VELO_PID.d;
+        double lastKf = DriveConstantstEST.MOTOR_VELO_PID.f;
 
-        drive.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, DriveConstants.MOTOR_VELO_PID);
+        drive.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, DriveConstantstEST.MOTOR_VELO_PID);
 
         NanoClock clock = NanoClock.system();
 
@@ -87,7 +87,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
 
         waitForStart();
 
-        if (isStopRequested()) return;
+        if (isStopRequested()) return lastKp;
 
         boolean movingForwards = true;
         MotionProfile activeProfile = generateProfile(true);
@@ -115,7 +115,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
                     }
 
                     MotionState motionState = activeProfile.get(profileTime);
-                    double targetPower = DriveConstants.kV * motionState.getV();
+                    double targetPower = DriveConstantstEST.kV * motionState.getV();
                     drive.setDrivePower(new Pose2d(targetPower, 0, 0));
 
                     List<Double> velocities = drive.getWheelVelocities();
@@ -150,17 +150,18 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
                     break;
             }
 
-            if (lastKp != DriveConstants.MOTOR_VELO_PID.p || lastKd != DriveConstants.MOTOR_VELO_PID.d
-                    || lastKi != DriveConstants.MOTOR_VELO_PID.i || lastKf != DriveConstants.MOTOR_VELO_PID.f) {
-                drive.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, DriveConstants.MOTOR_VELO_PID);
+            if (lastKp != DriveConstantstEST.MOTOR_VELO_PID.p || lastKd != DriveConstantstEST.MOTOR_VELO_PID.d
+                    || lastKi != DriveConstantstEST.MOTOR_VELO_PID.i || lastKf != DriveConstantstEST.MOTOR_VELO_PID.f) {
+                drive.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, DriveConstantstEST.MOTOR_VELO_PID);
 
-                lastKp = DriveConstants.MOTOR_VELO_PID.p;
-                lastKi = DriveConstants.MOTOR_VELO_PID.i;
-                lastKd = DriveConstants.MOTOR_VELO_PID.d;
-                lastKf = DriveConstants.MOTOR_VELO_PID.f;
+                lastKp = DriveConstantstEST.MOTOR_VELO_PID.p;
+                lastKi = DriveConstantstEST.MOTOR_VELO_PID.i;
+                lastKd = DriveConstantstEST.MOTOR_VELO_PID.d;
+                lastKf = DriveConstantstEST.MOTOR_VELO_PID.f;
             }
 
             telemetry.update();
         }
+        return lastKp;
     }
 }

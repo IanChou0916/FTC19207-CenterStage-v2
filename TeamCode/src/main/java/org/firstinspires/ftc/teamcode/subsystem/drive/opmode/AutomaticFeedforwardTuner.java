@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
 import org.firstinspires.ftc.teamcode.subsystem.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.subsystem.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.subsystem.drive.DriveConstantstEST;
 import org.firstinspires.ftc.teamcode.util.LoggingUtil;
 import org.firstinspires.ftc.teamcode.util.RegressionUtil;
 
@@ -37,7 +37,7 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        if (DriveConstants.RUN_USING_ENCODER) {
+        if (DriveConstantstEST.RUN_USING_ENCODER) {
             RobotLog.setGlobalErrorMsg("Feedforward constants usually don't need to be tuned " +
                     "when using the built-in drive motor velocity PID.");
         }
@@ -53,8 +53,7 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
 
         waitForStart();
 
-        if (isStopRequested()) return;
-
+        if (isStopRequested())
         telemetry.clearAll();
         telemetry.addLine("Would you like to fit kStatic?");
         telemetry.addLine("Press (Y/Δ) for yes, (B/O) for no");
@@ -94,7 +93,7 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
         telemetry.addLine("Running...");
         telemetry.update();
 
-        double maxVel = DriveConstants.rpmToVelocity(DriveConstants.MAX_RPM);
+        double maxVel = DriveConstantstEST.rpmToVelocity(DriveConstantstEST.MAX_RPM);
         double finalVel = MAX_POWER * maxVel;
         double accel = (finalVel * finalVel) / (2.0 * DISTANCE);
         double rampTime = Math.sqrt(2.0 * DISTANCE / accel);
@@ -214,5 +213,6 @@ public class AutomaticFeedforwardTuner extends LinearOpMode {
         while (!isStopRequested()) {
             idle();
         }
+        //return maxVel;
     }
 }

@@ -18,10 +18,10 @@ public class BaseChassis {
     public DcMotorEx RB = null;
     public DcMotorEx LB = null;
     List<DcMotorEx> motors;
-    BaseImu imu;
+    BaseImu19207 imu;
 
     public BaseChassis (HardwareMap hardwareMap) {
-        imu = new BaseImu(hardwareMap);
+        imu = new BaseImu19207(hardwareMap);
         
         Constants constants = new Constants();
         LF = hardwareMap.get(DcMotorEx.class, constants.MOTOR_CHASSIS_FL);
